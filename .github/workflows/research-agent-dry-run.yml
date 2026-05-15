@@ -1,0 +1,31 @@
+name: Research Agent Dry Run
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  dry-run:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile runner
+        run: python -m py_compile scripts/run_research_agent.py
+      - name: Run dry weekly scan
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          python scripts/run_research_agent.py \
+            --repo "${{ github.repository }}" \
+            --frequency weekly \
+            --today 2026-05-17 \
+            --wiki-root "$RUNNER_TEMP/research-wiki" \
+            --dry-run
+      - name: Show generated artifacts
+        run: find "$RUNNER_TEMP/research-wiki" -maxdepth 1 -type f -print
