@@ -33,3 +33,7 @@ Open a new issue with:
 ## Output
 
 Reports are published to `wiki.bondbuilt.ai/research/` and linked from each issue comment after each run.
+
+## Runner Scaffold
+
+See [docs/research-agent-cron.md](docs/research-agent-cron.md) for the EC2/systemd runner scaffold, dry-run validation command, and security notes.
